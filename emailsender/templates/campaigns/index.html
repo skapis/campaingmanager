@@ -1,0 +1,72 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div>
+    <h1 class="mb-3" id="pagetitle">Campaigns</h1>
+    {% include 'partials/messages.html' %}
+</div>
+<div class="row px-3">
+    <button data-toggle="modal" data-target="#newCamp" class="btn btn-primary rounded-lg">New Campaign</button>
+    {% include 'modals/new_campaign.html' %}
+</div>
+<div class="row py-3 overflow-auto">
+    <div class="col">
+        <table class="table border" id="camps">
+            <thead class="thead-light">
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">State</th>
+                <th scope="col">Created</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for campaign in page_obj %}
+                <tr>
+                    <td>{{campaign.name}}</td>
+                    <td>{{campaign.description}}</td>
+                    <td>
+                        {% if campaign.active %}
+                            <div class="text-success font-weight-bold">Enabled</div>
+                        {% else %}
+                            <div class="text-danger font-weight-bold">Disabled</div>
+                        {% endif %}
+                    </td>
+                    <td>{{campaign.created}}</td>
+                    <td>
+                        <a href="{% url 'campaign' campaign.campaignId %}" class="btn btn-outline-primary border-0 rounded-lg"><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="{% url 'delete_campaign' campaign.campaignId%}" class="btn btn-outline-danger border-0 rounded-lg"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'partials/pagination.html' %}
+    </div>
+</div>
+<div class="">
+    <div class="card rounded-lg">
+        <div class="card-header">
+            <h4 class="font-weight-bolder mb-0">Bulk insert of campaigns</h4>
+        </div>
+        <div class="card-body pb-2">
+            <div class="form-group">
+                <p for="campFileUpload">
+                    CSV file must have these columns: Name, Description and separator must be comma. Newly created campaigns will be disabled.
+                </p>
+                <p class="mb-0 font-weight-bolder">Cases, when campaign will not be created:</p>
+                <ul>
+                    <li>Campaign already exists</li>
+                    <li>Wrong data type of campaign data</li>
+                    <li>One of required data are not provided</li>
+                </ul>
+                <input type="file" id="campFileUpload" class="form-control-file mb-4">
+                <input type="button" id="campUpload" value="Upload" class="btn btn-primary rounded-lg">
+            </div>
+        </div>
+        <div id="csv">
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/campaigns.js' %}"></script>
+{% endblock %}

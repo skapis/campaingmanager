@@ -1,0 +1,26 @@
+{% load static %}
+{% block content %}
+<div class="modal fade" id="addCamps" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-lg">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-bold">Add Campaigns to Customer</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'customer_add_camp' customer.customerId %}" method="post">
+            {% csrf_token %}
+            <div class="modal-body px-3">
+                <p>Select the campaigns to which you want to add the customer</p>
+                <ul class="list-group border rounded" id="custCampList">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" id="submitBtn" class="btn btn-primary btn-block rounded-sm" value="Submit">
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

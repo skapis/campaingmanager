@@ -1,0 +1,39 @@
+{% load static %}
+{% block content %}
+<div class="modal fade" id="newTemplate" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-lg">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-bold">New Template</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'templates' %}" method="post">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name" class="font-weight-bolder">Name</label>
+                    <input type="text" name="name" class="form-control rounded-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject" class="font-weight-bolder">Subject</label>
+                    <input type="text" name="subject" class="form-control rounded-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="header" class="font-weight-bolder">Header</label>
+                    <input type="text" name="header" class="form-control rounded-sm" required>
+                </div>
+                <div class="form-group">
+                    <label for="content" class="font-weight-bolder">Content</label>
+                    <textarea name="content" class="form-control rounded-sm" rows="3" required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" id="submitBtn" class="btn btn-primary btn-block rounded-sm" value="Submit">
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

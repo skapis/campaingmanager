@@ -1,0 +1,41 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div>
+    <h1 class="mb-3" id="pagetitle">Email Templates</h1>
+    {% include 'partials/messages.html' %}
+</div>
+<div class="row px-3">
+    <button data-toggle="modal" data-target="#newTemplate" class="btn btn-primary rounded-lg">New Template</button>
+    {% include 'modals/addEmailTemplate.html' %}
+</div>
+<div class="row py-3 overflow-auto">
+    <div class="col">
+        <table class="table border" id="custs">
+            <thead class="thead-light">
+                <th scope="col">Name</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Created</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for template in page_obj %}
+                {% if template.name != 'Default'%}
+                <tr>
+                    <td>{{template.name}}</td>
+                    <td>{{template.subject}}</td>
+                    <td>{{template.created}}</td>
+                    <td>
+                        <a href="{% url 'template' template.templateId %}" class="btn btn-outline-primary border-0 rounded-lg"><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="{% url 'delete_template' template.templateId %}" class="btn btn-outline-danger border-0 rounded-lg"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'partials/pagination.html' %}
+    </div>
+</div>
+<script src="#"></script>
+{% endblock %}

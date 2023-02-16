@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<h1 class="mb-3" id="pagetitle">Email template detail</h1>
+{% include 'partials/messages.html' %}
+<div class="row px-3 mb-3 actions">
+    <button class="btn btn-primary rounded-sm mr-2" id="editTemplate">Edit</button>
+    <form action="{% url 'delete_template' template.templateId %}" class="mb-0" method="get">
+        <button type="submit" class="btn btn-danger rounded-sm">Delete</button>
+    </form>
+</div>
+<div class="card rounded-sm shadow-sm mb-3 p-3">
+    <form action="{% url 'template' template.templateId %}" id="editForm" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name" class="font-weight-bolder">Name</label>
+            <input type="text" name="name" disabled value="{{template.name}}" class="form-control rounded-sm" required>
+        </div>
+        <div class="form-group">
+            <label for="subject" class="font-weight-bolder">Subject</label>
+            <input type="text" name="subject" disabled value="{{template.subject}}" class="form-control rounded-sm" required>
+        </div>
+        <div class="form-group">
+            <label for="header" class="font-weight-bolder">Header</label>
+            <input type="text" name="header" disabled value="{{template.header}}" class="form-control rounded-sm" required>
+        </div>
+        <div class="form-group">
+            <label for="age" class="font-weight-bolder">Content</label>
+            <textarea name="content" disabled class="form-control rounded-sm" rows="10" required>{{template.content}}</textarea>
+        </div>
+    </form>
+    <div class="row edit px-3">
+
+    </div>
+</div>
+<script src="{% static 'js/templatedetail.js' %}"></script>
+{% endblock %}

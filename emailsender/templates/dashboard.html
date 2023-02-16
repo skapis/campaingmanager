@@ -1,0 +1,82 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div>
+    <h1 class="mb-3" id="pagetitle">Dashboard</h1>
+    {% include 'partials/messages.html' %}
+</div>
+<div class="row">
+    <div class="col">
+        <div class="card flex-fill w-100 rounded-lg shadow-sm mb-3">
+            <div class="card-header bg-transparent border-bottom-0">
+                <h5 class="card-title text-center mb-0 font-weight-bold">Campaigns</h5>
+            </div>
+            <div class="card-body py-3 flex-fill">
+                <div class="row align-items-center mb-2 text-center">
+                    <div class="col-12">
+                        <h3>{{camps}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card flex-fill w-100 rounded-lg shadow-sm mb-3">
+            <div class="card-header bg-transparent border-bottom-0">
+                <h5 class="card-title text-center mb-0 font-weight-bold">Customers</h5>
+            </div>
+            <div class="card-body py-3 flex-fill">
+                <div class="row align-items-center mb-2 text-center">
+                    <div class="col-12">
+                        <h3>{{custs}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card flex-fill w-100 rounded-lg shadow-sm mb-3">
+            <div class="card-header bg-transparent border-bottom-0">
+                <h5 class="card-title text-center mb-0 font-weight-bold">Email Limit</h5>
+            </div>
+            <div class="card-body py-3 flex-fill">
+                <div class="row align-items-center mb-2 text-center">
+                    <div class="col-12">
+                        <h3>{{limit}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my-2">
+    <h4 class="font-weight-bolder">Campaigns</h4>
+    <div class="row px-3 overflow-auto">
+        <table class="table border">
+            <thead class="thead-light">
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">State</th>
+                <th scope="col">Customers</th>
+            </thead>
+            <tbody>
+                {% for camp in camp_list %}
+                    <tr>
+                        <td><a href="{% url 'campaign' camp.id %}">{{camp.name}}</a></td>
+                        <td>{{camp.description}}</td>
+                        <td>
+                            {% if campaign.active %}
+                                <div class="text-success font-weight-bold">Enabled</div>
+                            {% else %}
+                                <div class="text-danger font-weight-bold">Disabled</div>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">{{camp.custs}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="{% static 'js/campaigns.js' %}"></script>
+{% endblock %}

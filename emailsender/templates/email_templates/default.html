@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple HTML Email Template</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #F2F2F2;
+      padding: 20px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      text-align: center;
+    }
+    .content {
+      padding: 20px;
+    }
+    .content p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .footer {
+      background-color: #F2F2F2;
+      padding: 20px;
+      text-align: left;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>{{content.header}}</h1>
+  </div>
+  <div class="content">
+    <p>Dear {{customer.first_name}} {{customer.last_name}},</p>
+    <p>{{content.content}}</p>
+  </div>
+  <div class="footer">
+    <p>This email was sent from Campaign Manager, because you subscribe emails. If you do not want to receive any other emails, please unsubscribe here</p>
+  </div>
+</body>
+</html>

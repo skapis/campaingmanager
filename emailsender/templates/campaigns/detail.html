@@ -1,0 +1,108 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<h1 class="mb-3" id="pagetitle">Campaign detail</h1>
+{% include 'partials/messages.html' %}
+<div class="row px-3 mb-3 actions">
+    <button class="btn btn-primary rounded-sm mr-2" id="editCamp"><i class="fa fa-edit"></i> Edit Campaign</button>
+    <button class="rounded-sm mr-2 btn {% if campaign.active %}btn-secondary{% else %}btn-success{% endif %}" id="changeCampState">
+        {% if campaign.active %}
+            Disable Campaign
+        {% else %}
+            Enable Campaign
+        {% endif %}
+    </button>
+    <form action="{% url 'all_in_campaign' campaign.campaignId %}" class="mb-0" method="post">
+        {% csrf_token %}
+        <button {% if not campaign.active or limit == 0 %} disabled {% endif %} class="btn btn-warning rounded-sm"  id="sendMails">
+            <i class="fa fa-envelope"></i> Send Emails to Customers
+        </button>
+    </form>
+</div>
+<div class="card rounded-sm shadow-sm mb-3 p-3">
+    <form action="{% url 'campaign' campaign.campaignId %}" id="editForm" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name" class="font-weight-bolder">Campaign Name</label>
+            <input type="text" name="name" disabled value="{{campaign.name}}" class="form-control rounded-sm" required>
+        </div>
+        <div class="form-group">
+            <label for="description" class="font-weight-bolder">Description</label>
+            <textarea name="description" class="form-control" disabled rows="3" required>{{campaign.description}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="template" class="font-weight-bolder">Template</label>
+            <select name="template" disabled class="form-control rounded-sm">
+                {% for template in templates %}
+                    {% if template.name == campaign.template.name %}
+                        <option value="{{template.templateId}}" selected>{{template.name}}</option>
+                    {% else %}
+                        <option value="{{template.templateId}}">{{template.name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+    <div class="row edit px-3">
+
+    </div>
+</div>
+<h4 class="font-weight-bolder mb-3">Customers in Campaign</h4>
+<div>
+    <button data-toggle="modal" data-target="#addCusts" class="btn btn-primary rounded-lg" id="addCustsBtn">Add Customers</button>
+    {% include 'modals/addCustToCamp.html' %}
+</div>
+<div class="row overflow-auto p-3">
+    <table class="table border">
+        <thead class="thead-light">
+            <th scope="col">Name</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Age</th>
+            <th scope="col">Birth Date</th>
+            <th>In Campaign From</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for c2c in c2cs %}
+            <tr>
+                <td><a href="{% url 'customer' c2c.customer.customerId %}">{{c2c.customer.first_name}} {{c2c.customer.last_name}}</a></td>
+                <td>{{c2c.customer.email}}</td>
+                <td>{{c2c.customer.gender}}</td>
+                <td>{{c2c.customer.age}}</td>
+                <td>{{c2c.customer.birthdate|date:'Y-m-d'}}</td>
+                <td>{{c2c.timestamp}}</td>
+                <td>
+                    <button class="btn btn-outline-danger border-0 rounded-lg removeCust" id="{{c2c.c2cId}}"><i class="fa fa-xmark"></i></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<h4 class="font-weight-bolder">Sent Emails</h4>
+<div class="row overflow-auto p-3">
+    <table class="table border" id="emailLogTable">
+        <thead class="thead-light">
+            <th scope="col">Date</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Email Template</th>
+        </thead>
+        <tbody>
+            {% for email in emails %}
+            <tr>
+                <td>{{email.timestamp}}</td>
+                <td>{{email.customer}}</td>
+                <td>{{email.template}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="actions">
+    <form action="{% url 'delete_campaign' campaign.campaignId %}" class="mb-0" method="get">
+        <button type="submit" class="btn btn-danger rounded-sm">Delete</button>
+    </form>
+</div>
+<script src="{% static 'js/campaigndetail.js' %}"></script>
+{% endblock %}
