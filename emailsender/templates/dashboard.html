@@ -65,7 +65,7 @@
                         <td><a href="{% url 'campaign' camp.id %}">{{camp.name}}</a></td>
                         <td>{{camp.description}}</td>
                         <td>
-                            {% if campaign.active %}
+                            {% if camp.active %}
                                 <div class="text-success font-weight-bold">Enabled</div>
                             {% else %}
                                 <div class="text-danger font-weight-bold">Disabled</div>
